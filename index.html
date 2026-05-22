@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Prompt Generator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="bg-glow glow-1"></div>
+  <div class="bg-glow glow-2"></div>
+
+  <header class="site-header">
+    <div class="logo">
+      <span class="logo-mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 3l1.9 5.8L19.7 10l-5.8 1.9L12 17.7 10.1 11.9 4.3 10l5.8-1.9L12 3z"/>
+          <path d="M19 15l.7 2.1L21.8 18l-2.1.7L19 21l-.7-2.3L16 18l2.3-.9L19 15z"/>
+        </svg>
+      </span>
+      <div class="logo-text">
+        <h1>AI Prompt Generator</h1>
+        <p>Turn simple ideas into rich, detailed prompts</p>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- ===== Generator card ===== -->
+    <section class="card generator">
+      <div class="field">
+        <label for="promptInput">Your idea</label>
+        <textarea id="promptInput" maxlength="300" rows="3"
+          placeholder="e.g. a cat sitting on a window..."></textarea>
+        <div class="counter"><span id="charCount">0</span> / 300</div>
+      </div>
+
+      <div class="grid-2">
+        <div class="field">
+          <label for="styleSelect">Style</label>
+          <div class="select-wrap">
+            <select id="styleSelect">
+              <option value="Realistic">Realistic</option>
+              <option value="Anime">Anime</option>
+              <option value="Cinematic">Cinematic</option>
+              <option value="Fantasy">Fantasy</option>
+              <option value="3D Render">3D Render</option>
+              <option value="Cyberpunk">Cyberpunk</option>
+              <option value="Minimalist">Minimalist</option>
+            </select>
+            <span class="select-arrow" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+            </span>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="mixSelect">Mix with <span class="opt">(optional)</span></label>
+          <div class="select-wrap">
+            <select id="mixSelect">
+              <option value="">None</option>
+              <option value="Realistic">Realistic</option>
+              <option value="Anime">Anime</option>
+              <option value="Cinematic">Cinematic</option>
+              <option value="Fantasy">Fantasy</option>
+              <option value="3D Render">3D Render</option>
+              <option value="Cyberpunk">Cyberpunk</option>
+              <option value="Minimalist">Minimalist</option>
+            </select>
+            <span class="select-arrow" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Detail level</label>
+        <div class="seg" id="detailSeg">
+          <button type="button" class="seg-btn" data-level="simple">Simple</button>
+          <button type="button" class="seg-btn active" data-level="detailed">Detailed</button>
+          <button type="button" class="seg-btn" data-level="extreme">Extreme</button>
+        </div>
+      </div>
+
+      <label class="check">
+        <input type="checkbox" id="negToggle" checked />
+        <span>Include negative prompt (things to avoid)</span>
+      </label>
+
+      <div class="btn-row">
+        <button id="generateBtn" class="btn btn-primary">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.8L19.7 10l-5.8 1.9L12 17.7 10.1 11.9 4.3 10l5.8-1.9L12 3z"/></svg>
+          <span>Generate</span>
+        </button>
+        <button id="randomBtn" class="btn btn-ghost">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 3h5v5"/><path d="M21 3l-7 7"/><path d="M8 21H3v-5"/><path d="M3 21l7-7"/><path d="M3 8V3h5"/><path d="M16 21h5v-5"/></svg>
+          <span>Random</span>
+        </button>
+        <button id="clearBtn" class="btn btn-ghost">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M19 6l-1 14H6L5 6"/></svg>
+          <span>Clear</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- ===== Output card ===== -->
+    <section class="card output">
+      <div class="output-head">
+        <h2>Generated prompts</h2>
+        <span class="hint">3 variations</span>
+      </div>
+
+      <div id="outputArea" class="output-area">
+        <p class="placeholder">Your enhanced prompts will appear here.</p>
+        <div id="loader" class="loader" hidden>
+          <span></span><span></span><span></span>
+        </div>
+        <div id="variations" class="variations"></div>
+      </div>
+    </section>
+
+    <!-- ===== Favorites ===== -->
+    <section class="card favorites">
+      <div class="fav-head">
+        <h2>Favorites</h2>
+        <span id="favCount" class="badge">0</span>
+      </div>
+      <ul id="favList" class="fav-list"></ul>
+      <p id="favEmpty" class="fav-empty">No saved prompts yet. Generate one and hit save.</p>
+    </section>
+
+    <!-- ===== History ===== -->
+    <section class="card history">
+      <div class="fav-head">
+        <h2>Recent history</h2>
+        <button id="clearHistBtn" class="btn btn-mini">Clear</button>
+      </div>
+      <ul id="histList" class="hist-list"></ul>
+      <p id="histEmpty" class="fav-empty">Your last 10 generated prompts show up here.</p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>Built with vanilla HTML, CSS &amp; JavaScript — runs entirely in your browser.</p>
+  </footer>
+
+  <!-- hidden canvas used for download-as-image -->
+  <canvas id="cardCanvas" width="1080" height="1080" hidden></canvas>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
