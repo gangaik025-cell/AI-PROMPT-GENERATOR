@@ -1,0 +1,12 @@
+{
+  "background_color": "#0b1020",
+  "dir": "ltr",
+  "display": "standalone",
+  "name": "AI Prompt Generator",
+  "orientation": "any",
+  "scope": "/",
+  "short_name": "AI Prompt",
+  "start_url": "/",
+  "theme_color": "#8b5cf6",
+  "description": "Generate smart AI prompts instantly"
+}
